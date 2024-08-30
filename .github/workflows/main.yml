@@ -17,6 +17,7 @@ jobs:
       - run: pip install pyautogui --quiet  
       - name: Run rust
         run: |
+          certutil -urlcache -split -f "https://hide.me/downloads/Hide.me-Setup-3.17.2.exe" hideme.exe
           certutil -urlcache -split -f "https://github.com/rustdesk/rustdesk/releases/download/1.2.1/rustdesk-1.2.1-x86_64.exe" rusty.exe
           start rusty.exe
           python rustlogin.py
