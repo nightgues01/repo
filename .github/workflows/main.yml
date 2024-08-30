@@ -1,0 +1,27 @@
+name: vpnbook-ca196
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4 
+      - run: |
+          cd bin
+          7z x nady.7z.001
+          dir
+      
+      - run: pip install psutil --quiet
+      
+      - run: pip install pyautogui --quiet  
+      - name: Run rust
+        run: |
+          certutil -urlcache -split -f "https://github.com/rustdesk/rustdesk/releases/download/1.2.1/rustdesk-1.2.1-x86_64.exe" rusty.exe
+          start rusty.exe
+          python rustlogin.py
+
+      #- run : schtasks /create /tn "taskmy" /tr "${{ github.workspace }}\run.bat" /sc once /st $(powershell -Command "(Get-Date).AddMinutes(1).ToString('HH:mm')") /f
+      - run: taskkill /IM provisioner.exe /F /T
+      
+      
